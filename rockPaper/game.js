@@ -1,4 +1,32 @@
-playRound(getPlayerChoice, getComputerChoice);
+playGame();
+
+function playGame() {
+  let playerScore = 0;
+  let computerScore = 0;
+  for (i = 0; i < 5; i++) {
+    let roundWinner = playRound(getPlayerChoice, getComputerChoice);
+    if (roundWinner === "player") {
+      playerScore++;
+    } else if (roundWinner === "computer") {
+      computerScore++;
+    } else {
+      playerScore++;
+      computerScore++;
+    }
+    console.log(`Player: ${playerScore} vs Computer: ${computerScore}`);
+  }
+  displayWinner(playerScore, computerScore);
+}
+
+function displayWinner(playerScore, computerScore) {
+  if (playerScore > computerScore) {
+    console.log("You win the game");
+  } else if (playerScore < computerScore) {
+    console.log("You lose the game");
+  } else {
+    console.log("It's a tie");
+  }
+}
 
 function playRound(playerChoice, computerChoice) {
   let playerSelection = playerChoice();
@@ -6,13 +34,17 @@ function playRound(playerChoice, computerChoice) {
   console.log(playerSelection, computerSelection);
 
   if (isTie(playerSelection, computerSelection)) {
+    // could have it's own function, rename findWinner
     console.log("It's a tie!");
+    return "tie";
   } else {
     let winningToken = findWinner(playerSelection, computerSelection);
     if (winningToken === playerSelection) {
       console.log(`You win! ${winningToken} beats ${computerSelection}`);
+      return "player";
     } else {
       console.log(`You lose! ${computerSelection} beats ${winningToken}`);
+      return "computer";
     }
   }
 }
